@@ -74,3 +74,6 @@ syntax on
 
 " Don't save extra cache file
 set noswapfile
+
+" Highlight .rasi
+au BufNewFile,BufRead /*.rasi setf css

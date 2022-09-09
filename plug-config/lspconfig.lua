@@ -103,6 +103,7 @@ local servers = {
     'gopls',
     'bashls',
     'vimls',
+    'cssls'
 }
 for _, lsp in pairs(servers) do
     require('lspconfig')[lsp].setup {

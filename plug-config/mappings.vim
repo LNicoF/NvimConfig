@@ -31,3 +31,6 @@ map <leader>f <Cmd>FZF<cr>
 inoremap <silent> <F2> <cmd>lua require('renamer').rename()<cr>
 nnoremap <silent> <leader><F2> <cmd>lua require('renamer').rename()<cr>
 vnoremap <silent> <leader><F2> <cmd>lua require('renamer').rename()<cr>
+
+" Compile
+autocmd FileType cpp nnoremap <leader>c <cmd>!clang++ -std=c++11 -Wall -O2 -o "%:r" "%" && cat "%:r.in" | "./%:r"<cr>
