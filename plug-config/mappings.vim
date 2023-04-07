@@ -1,5 +1,5 @@
 " Buffer Navigation
-nnoremap <silent> <C-i> :bp!<cr>
+nnoremap <silent> <Tab> :bp!<cr>
 nnoremap <silent> <C-o> :bn!<cr>
 
 " Windows Nav
@@ -34,3 +34,14 @@ vnoremap <silent> <leader><F2> <cmd>lua require('renamer').rename()<cr>
 
 " Compile
 autocmd FileType cpp nnoremap <leader>c <cmd>!clang++ -std=c++11 -Wall -O2 -o "%:r" "%" && cat "%:r.in" | "./%:r"<cr>
+
+" Emmet vim
+let g:user_emmet_leader_key='<C-,>'
+
+" Space braces
+nnoremap <silent> <space>[ cs][
+nnoremap <silent> <space>{ cs}{
+nnoremap <silent> <space>( cs)(
+
+" Godot
+nnoremap <leader>g <cmd>call Godot()<cr>

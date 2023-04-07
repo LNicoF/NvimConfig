@@ -48,7 +48,7 @@ cmp.setup({
         ['<C-f>'] = cmp.mapping.scroll_docs(4),
         ['<C-Space>'] = cmp.mapping.complete(),
         ['<C-e>'] = cmp.mapping.abort(),
-        ['<C-CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+        ['<c-cr>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
     }),
     sources = cmp.config.sources({
         { name = 'nvim_lsp' },
@@ -96,15 +96,16 @@ local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protoco
 -- map buffer local keybindings when the language server attaches
 local servers = {
     'pyright',
-    'rust_analyzer',
-    'tsserver',
     'clangd',
     'intelephense',
     'gopls',
     'bashls',
     'vimls',
-    'cssls'
+    'html',
+    'tsserver',
+    'cssls',
 }
+
 for _, lsp in pairs(servers) do
     require('lspconfig')[lsp].setup {
         capabilities = capabilities,
@@ -115,3 +116,13 @@ for _, lsp in pairs(servers) do
         }
     }
 end
+
+require('lspconfig').gdscript.setup {
+    capabilities = capabilities,
+    on_attach = on_attach,
+    cmd = { 'ncat', 'localhost', '6008' },
+    flags = {
+        -- This will be the default in neovim 0.7+
+        debounce_text_changes = 150,
+    }
+}

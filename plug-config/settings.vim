@@ -10,6 +10,7 @@ set softtabstop=4
 " File specific settings
 autocmd FileType go setlocal noexpandtab
 autocmd FileType vimwiki setlocal tabstop=2 shiftwidth=2 softtabstop=2
+autocmd FileType json setlocal tabstop=2 shiftwidth=2 softtabstop=2
 
 " Buffer Line
 set showtabline=2

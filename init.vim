@@ -3,6 +3,7 @@ source  ~/.config/nvim/plug-config/plugins.vim
 source  ~/.config/nvim/plug-config/colorscheme.vim
 source  ~/.config/nvim/plug-config/lightline.vim
 source  ~/.config/nvim/plug-config/alt-zero.vim
+source  ~/.config/nvim/plug-config/godot.vim
 luafile ~/.config/nvim/plug-config/nvim-tree.lua
 luafile ~/.config/nvim/plug-config/lspconfig.lua
 luafile ~/.config/nvim/plug-config/trouble.lua
