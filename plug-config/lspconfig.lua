@@ -27,6 +27,10 @@ local on_attach = function(client, bufnr)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
+
+    if client.server_capabilities.documentSymbolProvider then
+        require'nvim-navic'.attach( client, bufnr )
+    end
 end
 
 -- Setup nvim-cmp.
@@ -52,8 +56,8 @@ cmp.setup({
     }),
     sources = cmp.config.sources({
         { name = 'nvim_lsp' },
-        { name = 'vsnip' }, -- For vsnip users.
-        -- { name = 'luasnip' }, -- For luasnip users.
+        -- { name = 'vsnip' }, -- For vsnip users.
+        { name = 'luasnip' }, -- For luasnip users.
         -- { name = 'ultisnips' }, -- For ultisnips users.
         -- { name = 'snippy' }, -- For snippy users.
     }, {
@@ -70,7 +74,6 @@ cmp.setup.filetype('gitcommit', {
     })
 })
 
--- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
 cmp.setup.cmdline('/', {
     mapping = cmp.mapping.preset.cmdline(),
     sources = {
@@ -90,6 +93,7 @@ cmp.setup.cmdline(':', {
 
 -- Setup lspconfig.
 local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+capabilities.textDocument.completion.completionItem.snippetSupport = true
 
 
 -- Use a loop to conveniently call 'setup' on multiple servers and
@@ -104,6 +108,9 @@ local servers = {
     'html',
     'tsserver',
     'cssls',
+    'cssls',
+    'html',
+    'emmet_ls',
 }
 
 for _, lsp in pairs(servers) do
@@ -113,7 +120,7 @@ for _, lsp in pairs(servers) do
         flags = {
             -- This will be the default in neovim 0.7+
             debounce_text_changes = 150,
-        }
+        },
     }
 end
 
@@ -125,4 +132,16 @@ require('lspconfig').gdscript.setup {
         -- This will be the default in neovim 0.7+
         debounce_text_changes = 150,
     }
+require'lspconfig'.tsserver.setup{
+    capabilities = capabilities,
+    on_attach = on_attach,
+    flags = {
+        -- This will be the default in neovim 0.7+
+        debounce_text_changes = 150,
+    },
+    root_dir = function(fname)
+        return require'lspconfig'.util.root_pattern('tsconfig.json')(fname)
+            or require'lspconfig'.util.root_pattern('package.json', 'jsconfig.json', '.git')(fname)
+            or require'lspconfig'.util.path.dirname(fname)
+    end,
 }

@@ -1,0 +1,86 @@
+snippet common Typical common.h file for all interface based projects
+    #pragma once
+
+    #define interface  struct
+    #define extends    public
+    #define implements public
+    #define nullptr    0
+
+    #define DISABLE_COPY( cls ) \
+        cls( const cls& ) ; \
+        cls& operator =( const cls& )
+
+    typedef unsigned int uint ;
+    $0
+
+snippet object_itf Typical object_itf.h for interface based projects
+    #pragma once
+    #include "common.h"
+
+    #define SET_IID( itf, iid ) \
+        template<> struct Iid< interface itf > { \
+            static uint getIid() { return iid ; } \
+        }
+
+    template< interface Itf >
+    struct Iid {
+        static uint getIid() { return 0 ; }
+    } ;
+
+    interface IObject {
+        virtual void acquire() = 0 ;
+        virtual void release() = 0 ;
+        virtual IObject* request( const uint& iid ) = 0 ;
+    } ;
+    SET_IID( IObject, 1 ) ;
+
+    template< typename Itf >
+    Itf* request( IObject* obj ) {
+        return ( Itf* )obj->request( Iid< Itf >::getIid() ) ;
+    }
+    $0
+
+snippet interface Basic interface
+    interface ${1:IItf} : extends ${2:IObject} {
+        ${5:/** funcs **/}
+    } ;$0
+    SET_IID(${1:IItf}, ${4:iid})
+
+snippet class Interfaced Class
+    class ${1:MyClass} : implements ${2:IObject} {
+        int refCount ;
+
+        DISABLE_COPY( ${1:MyClass} ) ;
+    public:
+        ${1:MyClass}(${2})${3} {$4
+        }
+
+        virtual ~${1:MyClass}() {$5
+        }
+
+        virtual void acquire() {
+            ++refCount ;
+        }
+
+        virtual void release() {
+            --refCount ;
+            if ( refCount == 0 )
+                delete this ;
+        }
+
+        virtual void request( const uint& iid ) {
+            if ( iid == Iid< ${2:IObject} >::getIid() )
+                return this ;$6
+            return nullptr ;
+        }
+
+        $0
+    } ;
+
+snippet request Object interface checking
+    ${1:IItf} ${2:name} = ::request< ${1:IItf} >( ${3:obj} ) ;
+    if ( ${2:name} != nullptr ) {
+        ${2:name}->acquire() ;
+        $0
+        ${2:name}->release() ;
+    }

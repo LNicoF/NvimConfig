@@ -21,10 +21,13 @@ Plug 'hrsh7th/cmp-buffer'
 Plug 'hrsh7th/cmp-path'
 Plug 'hrsh7th/cmp-cmdline'
 Plug 'hrsh7th/nvim-cmp'
+Plug 'ray-x/lsp_signature.nvim' " function signature
 
 Plug 'prettier/vim-prettier', { 'do': 'yarn install --frozen-lockfile -production' }
 
 Plug 'folke/trouble.nvim' " Diagnostics window
+Plug 'SmiteshP/nvim-navic' " Code context
+Plug 'folke/trouble.nvim'  " Diagnostics window
 
 " Snippets
 Plug 'L3MON4D3/LuaSnip'

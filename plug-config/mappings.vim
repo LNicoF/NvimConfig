@@ -11,6 +11,9 @@ nnoremap <c-l> <c-w>l
 " Open config
 nnoremap <c-,> <cmd>e ~/.config/nvim/init.vim<cr>
 
+" Dup line
+nnoremap <leader>d "dyy"dp
+
 " Apply config
 nnoremap <leader>r <cmd>source ~/.config/nvim/init.vim<cr>
 
@@ -25,7 +28,7 @@ map <c-y> "+y
 map <c-p> "+p
 
 " Fzf
-map <leader>f <Cmd>FZF<cr>
+map <leader>f <Cmd>Files<cr>
 
 " Renamer
 inoremap <silent> <F2> <cmd>lua require('renamer').rename()<cr>
@@ -45,3 +48,18 @@ nnoremap <silent> <space>( cs)(
 
 " Godot
 nnoremap <leader>g <cmd>call Godot()<cr>
+autocmd FileType cpp nnoremap <leader>c <cmd>w<cr><cmd>!cses_comp %:r<cr>
+autocmd FileType html nnoremap <leader>c <cmd>w<cr><cmd>!firefox --new-tab % &<cr>
+
+" Emmet leader key
+let g:user_emmet_leader_key='<C-,>'
+
+" LuaSnip
+imap <silent><expr> <Tab> luasnip#expand_or_jumpable() ? '<Plug>luasnip-expand-or-jump' : '<Tab>' 
+inoremap <silent> <S-Tab> <cmd>lua require'luasnip'.jump(-1)<Cr>
+
+snoremap <silent> <Tab> <cmd>lua require('luasnip').jump(1)<Cr>
+snoremap <silent> <S-Tab> <cmd>lua require('luasnip').jump(-1)<Cr>
+
+imap <silent><expr> <C-E> luasnip#choice_active() ? '<Plug>luasnip-next-choice' : '<C-E>'
+smap <silent><expr> <C-E> luasnip#choice_active() ? '<Plug>luasnip-next-choice' : '<C-E>'

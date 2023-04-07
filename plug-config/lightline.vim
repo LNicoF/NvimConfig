@@ -8,13 +8,15 @@ let g:lightline.colorscheme					= 'palenight'
 let g:lightline.tabline.left				= [ [ 'buffers' ] ]
 let g:lightline.tabline.right				= [ [ 'close' ] ]
 let g:lightline.component_expand.buffers	= 'lightline#bufferline#buffers'
-let g:lightline.component_type.buffers		= 'tabsel' 
+let g:lightline.component_type.buffers		= 'tabsel'
 let g:lightline.active.right				= [ [ 'lineinfo' ], [ 'percent' ], [ 'filetype' ] ]
-" let g:lightline.component_function.filetype	= 'MyFiletype'
+let g:lightline.active.left                 = [ [ 'mode', 'paste' ], [ 'readonly', 'filename', 'modified', 'navic' ] ]
 
-" function! MyFiletype()
-"   return winwidth(0) > 70 ? (strlen(&filetype) ? &filetype . ' ' . WebDevIconsGetFileTypeSymbol() : 'no ft') : ''
-" endfunction
+let g:lightline.component_function.navic = 'RenderNavic'
+
+function! RenderNavic()
+    return luaeval( "require'nvim-navic'.get_location()" )
+endfunction
 
 let g:lightline#bufferline#modified			= ' '
 let g:lightline#bufferline#read_only		= ' '
