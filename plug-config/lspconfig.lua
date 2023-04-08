@@ -105,9 +105,6 @@ local servers = {
     'gopls',
     'bashls',
     'vimls',
-    'html',
-    'tsserver',
-    'cssls',
     'cssls',
     'html',
     'emmet_ls',
@@ -132,6 +129,8 @@ require('lspconfig').gdscript.setup {
         -- This will be the default in neovim 0.7+
         debounce_text_changes = 150,
     }
+}
+
 require'lspconfig'.tsserver.setup{
     capabilities = capabilities,
     on_attach = on_attach,
